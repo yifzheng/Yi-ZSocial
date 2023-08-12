@@ -1,0 +1,29 @@
+.friend {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+
+	.friendImg {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		margin-right: 10px;
+		object-fit: cover;
+	}
+	span {
+		font-size: 18px;
+		font-weight: 500;
+	}
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: whitesmoke;
+}
+::-webkit-scrollbar-thumb {
+	background-color: lightgrey;
+	border-radius: 20px;
+}

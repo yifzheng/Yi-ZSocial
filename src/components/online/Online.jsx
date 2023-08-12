@@ -1,14 +1,17 @@
+/* eslint-disable react/prop-types */
 import "./online.scss"
-import Person3 from "../../assets/person/person3.jpg"
 
-const Online = () => {
+const Online = ( { user } ) => {
+
     return (
         <>
-            <div className="imgContainer">
-                <img src={ Person3 } alt="" className="profileImg" />
-                <span className="online"></span>
-            </div>
-            <span className="userName">Jane Dowe</span>
+            <li className="friend">
+                <div className="imgContainer">
+                    <img src={ user.profilePicture } alt="" className="profileImg" />
+                    <span className="online"></span>
+                </div>
+                <span className="userName">{ user.userName }</span>
+            </li >
         </>
     )
 }
