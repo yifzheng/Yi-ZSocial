@@ -1,9 +1,7 @@
 import "./sidebar.scss"
 import { RssFeed, Chat, PlayCircle, Group, Bookmark, Help, Work, Event, School } from "@mui/icons-material"
-import Person1 from "../../assets/person/person1.jpg"
-import Person2 from "../../assets/person/person2.jpg"
-import Person3 from "../../assets/person/person3.jpg"
-import Person4 from "../../assets/person/person4.jpg"
+import { Users } from "../../dummyData"
+import CloseFriend from "../closeFriend/CloseFriend"
 
 const Sidebar = () => {
     return (
@@ -50,70 +48,9 @@ const Sidebar = () => {
                 <button className="sidebarButton">Show More</button>
                 <hr className="sidebarHR" />
                 <ul className="friendList">
-                    <li className="friend">
-                        <img src={ Person1 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person2 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person3 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person4 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person1 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person2 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person3 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person4 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person1 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person2 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person3 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person4 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person1 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person2 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person3 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
-                    <li className="friend">
-                        <img src={ Person4 } alt="" className="friendImg" />
-                        <span className="friendName">Jane Doe</span>
-                    </li>
+                    { Users.map( u => (
+                        <CloseFriend key={ u.id } user={ u } />
+                    ) ) }
                 </ul>
             </div>
         </div>

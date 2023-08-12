@@ -2,6 +2,8 @@
 	flex: 3;
 	height: calc(100vh - 50px);
 	overflow-y: scroll;
+	position: sticky;
+	top: 50px;
 
 	.wrapper {
 		padding: 20px 40px;
@@ -43,24 +45,6 @@
 			padding: 0;
 			margin: 0;
 			list-style: none;
-
-			.friend {
-				display: flex;
-				align-items: center;
-				margin-bottom: 20px;
-
-				.friendImg {
-					width: 50px;
-					height: 50px;
-					border-radius: 50%;
-					margin-right: 10px;
-					object-fit: cover;
-				}
-				span {
-					font-size: 18px;
-					font-weight: 500;
-				}
-			}
 		}
 	}
 }
