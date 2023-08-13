@@ -44,5 +44,54 @@
 				
 			}
 		}
+
+		.userInfoTitle {
+			font-size: 32px;
+			font-weight: 600;
+			margin-bottom: 15px;
+		}
+
+		.info {
+			margin-bottom: 15px;
+
+			.infoItem {
+				margin-bottom: 10px;
+				font-size: 18px;
+
+				.infoKey {
+					font-weight: 700;
+					margin-right: 15px;
+					color: #555
+				}
+				.infoValue {
+					font-weight: 400;
+				}
+			}
+		}
+
+		.followings {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 20px;
+
+			.following {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 10px;
+				cursor: pointer;
+
+				.followingImg {
+					width: 125px;
+					height: 125px;
+					border-radius: 10px;
+					object-fit: cover;
+				}
+			}
+		}
 	}
 }
