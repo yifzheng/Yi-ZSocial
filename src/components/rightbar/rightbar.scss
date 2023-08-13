@@ -72,8 +72,9 @@
 		.followings {
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: center;
+			gap: 20px;
 
 			.following {
 				display: flex;
@@ -85,9 +86,9 @@
 				cursor: pointer;
 
 				.followingImg {
-					width: 100px;
-					height: 100px;
-					border-radius: 5px;
+					width: 125px;
+					height: 125px;
+					border-radius: 10px;
 					object-fit: cover;
 				}
 			}
