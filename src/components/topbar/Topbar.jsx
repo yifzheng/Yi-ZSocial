@@ -2,13 +2,16 @@ import "./topbar.scss"
 import { Chat, Notifications, Person, Search } from "@mui/icons-material"
 import Person5 from "../../assets/person/person5.jpg"
 import Logo from "../../assets/snap.png"
+import { Link } from "react-router-dom"
 
 const Topbar = () => {
     return (
         <div className="topbar">
             <div className="left">
                 <img src={ Logo } alt="" className="logoIcon" />
-                <span className="logo">Yi-ZSocial</span>
+                <Link to={"/"} className="logoLink">
+                    <span className="logo">Yi-ZSocial</span>
+                </Link>
             </div>
             <div className="center">
                 <div className="searchBar">
