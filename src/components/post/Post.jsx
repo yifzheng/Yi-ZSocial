@@ -7,6 +7,7 @@ import Heart from "../../assets/heart.png"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { format } from "timeago.js"
+import { Link } from "react-router-dom"
 
 const Post = ( { post } ) => {
     const [ user, setUser ] = useState( {} )
@@ -15,7 +16,7 @@ const Post = ( { post } ) => {
 
     useEffect( () => {
         const fetchUser = async () => {
-            const u = await axios.get( `http://localhost:8800/api/users/${post.userId}` )
+            const u = await axios.get( `http://localhost:8800/api/users?userId=${post.userId}` )
             setUser( u.data )
         }
         return () => {
@@ -28,13 +29,13 @@ const Post = ( { post } ) => {
         setLike( isLike ? ( prevState ) => prevState - 1 : ( prevState ) => prevState + 1 )
         setIsLike( !isLike )
     }
-   
+
     return (
         <div className="post">
             <div className="wrapper">
                 <div className="top">
                     <div className="topLeft">
-                        <img src={ user?.profilePicture ? user?.profilePicture : noavatar } alt="" className="profileImg" />
+                        <Link to={ `/profile/${user.userName}` }><img src={ user?.profilePicture ? user?.profilePicture : noavatar } alt="" className="profileImg" /></Link>
                         <span className="userName">{ user?.userName }</span>
                         <span className="date">{ format( post.createdAt ) }</span>
                     </div>
