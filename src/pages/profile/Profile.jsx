@@ -6,20 +6,23 @@ import Rightbar from '../../components/rightbar/Rightbar'
 import noavatar from "../../assets/person//noavatar.png"
 import nocover from "../../assets/person/nocover.jpg"
 import { useEffect, useState } from 'react'
+import { useParams } from "react-router"
 import axios from 'axios'
 
 const Profile = () => {
     const [ user, setUser ] = useState( {} )
+    const { userName } = useParams()
 
     useEffect( () => {
+        window.scrollTo( 0, 0 )
         const fetchUser = async () => {
-            const u = await axios.get( `http://localhost:8800/api/users?userName=yifzheng` )
+            const u = await axios.get( `http://localhost:8800/api/users?userName=${userName}` )
             setUser( u.data )
         }
         return () => {
             fetchUser()
         }
-    }, [] )
+    }, [ userName ] )
 
     return (
         <>
@@ -38,7 +41,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="rightBottom">
-                        <Feed userName={ "yifzheng" } />
+                        <Feed userName={ userName } />
                         <Rightbar user={ user } />
                     </div>
 

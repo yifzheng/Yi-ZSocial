@@ -34,15 +34,15 @@ const Rightbar = ( { user } ) => {
                 <h4 className="userInfoTitle">User Information</h4>
                 <div className="info">
                     <div className="infoItem">
-                        <span className="infoKey">City: </span>
+                        <span className="infoKey">City:</span>
                         <span className="infoValue">{ user.city }</span>
                     </div>
                     <div className="infoItem">
-                        <span className="infoKey">From: </span>
+                        <span className="infoKey">From:</span>
                         <span className="infoValue">{ user.from }</span>
                     </div>
                     <div className="infoItem">
-                        <span className="infoKey">Relationship: </span>
+                        <span className="infoKey">Relationship:</span>
                         <span className="infoValue">{ user.relationship === 1 ? "Single"
                             : ( user.relationship === 2 ? "Married" : "Private" ) }</span>
                     </div>

@@ -1,7 +1,21 @@
 import "./login.scss"
 import Logo from "../../assets/snap.png"
+import { useContext, useRef } from "react"
+import { loginCall } from "../../api"
+import { AuthContext } from "../../../src/context/AuthContext"
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Login = () => {
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const { user, isFetching, error, dispatch } = useContext( AuthContext )
+
+    const handleSubmit = ( e ) => {
+        e.preventDefault();
+        loginCall( { email: emailRef.current.value, password: passwordRef.current.value }, dispatch )
+    }
+
+    console.log( "USER: ", user )
     return (
         <div className="login">
             <div className="wrapper">
@@ -14,13 +28,13 @@ const Login = () => {
                 </div>
                 <div className="right">
                     <div className="loginBox">
-                        <form>
-                            <input type="email" className="loginInput" placeholder="Email" required />
-                            <input type="password" className="loginInput" placeholder="Password" required minLength={ 3 } />
-                            <button type="submit" className="loginBtn">Log in</button>
+                        <form onSubmit={ handleSubmit }>
+                            <input type="email" className="loginInput" placeholder="Email" required ref={ emailRef } />
+                            <input type="password" className="loginInput" placeholder="Password" required minLength={ 3 } ref={ passwordRef } />
+                            <button type="submit" className="loginBtn" disabled={ isFetching }>{ isFetching ? <CircularProgress color="inherit" size={ "25px" } /> : "Log In" }</button>
                             <span className="loginForgot">Forgot Password?</span>
-                            <button className="loginRegBtn">
-                                Create a New Account
+                            <button className="loginRegBtn" disabled={ isFetching }>
+                                { isFetching ? <CircularProgress color="inherit" size={ "25px" } /> : "Create a New Account" }
                             </button>
                         </form>
                     </div>
