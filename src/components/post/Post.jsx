@@ -4,16 +4,19 @@ import noavatar from "../../assets/person/noavatar.png"
 import { MoreVert } from "@mui/icons-material"
 import Like from "../../assets/like.png"
 import Heart from "../../assets/heart.png"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { format } from "timeago.js"
 import { Link } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
 
 const Post = ( { post } ) => {
     const [ user, setUser ] = useState( {} )
     const [ likes, setLike ] = useState( post.likes.length )
     const [ isLike, setIsLike ] = useState( false )
+    const { user: currentUser } = useContext( AuthContext )
 
+    // onload
     useEffect( () => {
         const fetchUser = async () => {
             const u = await axios.get( `http://localhost:8800/api/users?userId=${post.userId}` )
@@ -24,10 +27,18 @@ const Post = ( { post } ) => {
         }
     }, [ post.userId ] )
 
+    useEffect( () => {
+        setIsLike( post.likes.includes( currentUser._id ) )
+    }, [ currentUser._id, post.likes ] )
+
     // handle clikc of like buttons for user
-    const likeHandle = () => {
-        setLike( isLike ? ( prevState ) => prevState - 1 : ( prevState ) => prevState + 1 )
-        setIsLike( !isLike )
+    const likeHandle = async () => {
+        try {
+            await axios.put( `http://localhost:8800/api/posts/${post._id}/like`, { userId: currentUser._id } )
+            setLike( isLike ? ( prevState ) => prevState - 1 : ( prevState ) => prevState + 1 )
+            setIsLike( !isLike )
+        } catch ( error ) { console.log( error ) }
+
     }
 
     return (
