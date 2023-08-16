@@ -92,6 +92,15 @@
 						font-weight: 500;
 						cursor: pointer;
 					}
+					.passwordError {
+						color: crimson;
+						font-size: 18px;
+						text-align: center;
+						font-weight: 600;
+					}
+					button:disabled {
+						cursor: not-allowed;
+					}
 				}
 			}
 		}

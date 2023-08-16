@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Post from "../post/Post"
 import Share from "../share/Share"
 import "./feed.scss"
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const Feed = ( { userName } ) => {
   const [ posts, setPosts ] = useState( [] );
+  const { user } = useContext( AuthContext )
 
   useEffect( () => {
     const fetch = async () => {
       const res = userName
         ? await axios.get( `http://localhost:8800/api/posts/profile/${userName}` )
-        : await axios.get( `http://localhost:8800/api/posts/timeline/64d684a6f994b9d75d9e4d1d` )
+        : await axios.get( `http://localhost:8800/api/posts/timeline/${user._id}` )
       // set posts data from most recent post to oldest
       setPosts( res.data.sort( ( a, b ) => b.createdAt.localeCompare( a.createdAt ) ) )
     }
     return () => {
       fetch()
     }
-  }, [ userName ] )
+  }, [ userName, user._id ] )
 
 
   return (
