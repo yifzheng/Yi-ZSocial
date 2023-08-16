@@ -46,7 +46,10 @@
 
         .center {
             margin: 20px 0px;
-
+            .postText {
+                font-size: 16px;
+                font-weight: 500;
+            }
             .postImg {
                 margin-top: 20px;
                 width: 100%;
