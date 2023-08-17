@@ -15,7 +15,7 @@ const Feed = ( { userName } ) => {
         ? await axios.get( `http://localhost:8800/api/posts/profile/${userName}` )
         : await axios.get( `http://localhost:8800/api/posts/timeline/${user._id}` )
       // set posts data from most recent post to oldest
-      setPosts( res.data.sort( ( a, b ) => b.createdAt.localeCompare( a.createdAt ) ) )
+      setPosts( res.data.sort( ( a, b ) => new Date( b.createdAt ) - new Date( a.createdAt ) ) )
     }
     return () => {
       fetch()

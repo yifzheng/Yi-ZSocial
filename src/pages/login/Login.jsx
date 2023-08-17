@@ -33,10 +33,10 @@ const Login = () => {
                         <form onSubmit={ handleSubmit }>
                             <input type="email" className="loginInput" placeholder="Email" required ref={ emailRef } />
                             <input type="password" className="loginInput" placeholder="Password" required minLength={ 6 } ref={ passwordRef } />
-                            <button type="submit" className="loginBtn" disabled={ isFetching }>{ isFetching ? <CircularProgress color="inherit" size={ "25px" } /> : "Log In" }</button>
+                            <button type="submit" className="loginBtn" disabled={ isFetching }>{ isFetching && !error ? <CircularProgress color="inherit" size={ "25px" } /> : "Log In" }</button>
                             <span className="loginForgot">Forgot Password?</span>
                             <button className="loginRegBtn" disabled={ isFetching } onClick={ () => navigate( "/register" ) }>
-                                { isFetching ? <CircularProgress color="inherit" size={ "25px" } /> : "Create a New Account" }
+                                { isFetching && !error ? <CircularProgress color="inherit" size={ "25px" } /> : "Create a New Account" }
                             </button>
                         </form>
                     </div>
