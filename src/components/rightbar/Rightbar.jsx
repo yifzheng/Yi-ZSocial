@@ -2,13 +2,45 @@
 import "./rightbar.scss"
 import Birthday from "../../assets/gift.png"
 import Ad from "../../assets/ad.jpg"
-import Person1 from "../../assets/person/person1.jpg"
-import Person2 from "../../assets/person/person2.jpg"
-import Person3 from "../../assets/person/person3.jpg"
+import noavatar from "../../assets/person/noavatar.png"
 import Online from "../online/Online"
 import { Users } from "../../dummyData"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const Rightbar = ( { user } ) => {
+    const [ friends, setFriends ] = useState( [] )
+    const navigate = useNavigate()
+    console.log( "rightbar USER: ", user?._id )
+    useEffect( () => {
+        // Define an async function inside the useEffect
+        const fetchData = async () => {
+            try {
+                const friendList = await axios.get( `http://localhost:8800/api/users/friends/${user?._id}` );
+                setFriends( friendList.data );
+            } catch ( error ) {
+                console.log( error );
+            }
+        };
+
+        // Check if user is defined and not empty before calling the fetchData function
+        if ( user?._id && Object.keys( user ).length > 0 ) {
+            console.log( "user is not undefined,", user );
+            fetchData();
+        }
+
+        // Return a cleanup function
+        return () => {
+            // You can optionally perform cleanup here
+        };
+    }, [ user ] );
+
+
+    const handleProfileNavigation = ( friend ) => {
+        navigate( `/profile/${friend.userName}` )
+        location.reload()
+    }
 
     const HomeRightbar = () => {
         return (
@@ -49,30 +81,12 @@ const Rightbar = ( { user } ) => {
                 </div>
                 <h4 className="userInfoTitle">User Friends</h4>
                 <div className="followings">
-                    <div className="following">
-                        <img src={ Person1 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person2 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person3 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person1 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person2 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person3 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
+                    { friends.map( friend => (
+                        <div className="following" key={ friend._id } onClick={ () => handleProfileNavigation( friend ) }>
+                            <img src={ friend.profilePicture ? friend.profilePicture : noavatar } alt="" className="followingImg" />
+                            <span className="userName">{ friend.userName }</span>
+                        </div>
+                    ) ) }
                 </div>
             </>
         )

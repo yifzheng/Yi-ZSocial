@@ -2,19 +2,24 @@ import "./topbar.scss"
 import { Chat, Notifications, Person, Search } from "@mui/icons-material"
 import noavatar from "../../assets/person/noavatar.png"
 import Logo from "../../assets/snap.png"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext"
 
 const Topbar = () => {
     const { user } = useContext( AuthContext )
+    const navigate = useNavigate()
+
+    const handleProfileNavigation = () => {
+        navigate( `/profile/${user.userName}` )
+        location.reload()
+    }
+
     return (
         <div className="topbar">
             <div className="left">
                 <img src={ Logo } alt="" className="logoIcon" />
-                <Link to={ "/" } className="logoLink">
-                    <span className="logo">Yi-ZSocial</span>
-                </Link>
+                <span className="logo" onClick={ () => navigate( "/" ) }>Yi-ZSocial</span>
             </div>
             <div className="center">
                 <div className="searchBar">
@@ -41,7 +46,7 @@ const Topbar = () => {
                         <span className="iconBadge">1</span>
                     </div>
                 </div>
-                <Link to={ `/profile/${user.userName}` }><img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className="profile" /></Link>
+                <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className="profile" onClick={ handleProfileNavigation } />
             </div>
         </div>
     )

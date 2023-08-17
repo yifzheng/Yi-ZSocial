@@ -5,7 +5,7 @@ import "./feed.scss"
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
-const Feed = ( { userName,profile } ) => {
+const Feed = ( { userName } ) => {
   const [ posts, setPosts ] = useState( [] );
   const { user } = useContext( AuthContext )
 
@@ -26,7 +26,7 @@ const Feed = ( { userName,profile } ) => {
   return (
     <div className="feed">
       <div className="wrapper">
-        {!profile && <Share />}
+        { userName === user.userName && <Share /> }
         { posts.map( ( post ) => (
           <Post key={ post._id } post={ post } />
         ) ) }

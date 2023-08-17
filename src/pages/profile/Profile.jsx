@@ -19,8 +19,8 @@ const Profile = () => {
             const u = await axios.get( `http://localhost:8800/api/users?userName=${userName}` )
             setUser( u.data )
         }
-        return () => {
-            fetchUser()
+        return async () => {
+            await fetchUser()
         }
     }, [ userName ] )
 
@@ -32,8 +32,8 @@ const Profile = () => {
                 <div className="right">
                     <div className="rightTop">
                         <div className="profileCover">
-                            <img src={ user.coverPicture || nocover } alt="" className='coverImg' />
-                            <img src={ user.profilePicture || noavatar } alt="" className='avatar' />
+                            <img src={ user.coverPicture ? user.coverPicture : nocover } alt="" className='coverImg' />
+                            <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className='avatar' />
                         </div>
                         <div className="profileInfo">
                             <h4 className='profileInfoName'>{ user.userName }</h4>
@@ -41,8 +41,8 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="rightBottom">
-                        <Feed userName={ userName } profile/>
-                        <Rightbar user={ user } />
+                        <Feed userName={ userName } />
+                        <Rightbar user={ user && user } />
                     </div>
 
                 </div>
