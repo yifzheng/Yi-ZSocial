@@ -1,10 +1,8 @@
 import "./register.scss"
 import Logo from "../../assets/snap.png"
 import { useNavigate } from "react-router"
-import { useContext, useRef, useState } from "react";
-import CircularProgress from '@mui/material/CircularProgress';
+import {  useRef, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -15,7 +13,6 @@ const Register = () => {
     const passwordRef = useRef();
     const passwordAgainRef = useRef();
     const [ passwordNotEqual, setPasswordNotEqual ] = useState( false )
-
 
     // handle user registration on client side
     const handleSubmit = async ( e ) => {

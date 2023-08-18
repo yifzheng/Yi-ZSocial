@@ -2,13 +2,69 @@
 import "./rightbar.scss"
 import Birthday from "../../assets/gift.png"
 import Ad from "../../assets/ad.jpg"
-import Person1 from "../../assets/person/person1.jpg"
-import Person2 from "../../assets/person/person2.jpg"
-import Person3 from "../../assets/person/person3.jpg"
+import noavatar from "../../assets/person/noavatar.png"
 import Online from "../online/Online"
-import { Users } from "../../dummyData"
+import { useContext, useEffect, useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
+import { Add, Remove } from "@mui/icons-material"
 
 const Rightbar = ( { user } ) => {
+    const [ friends, setFriends ] = useState( [] )
+    const [ isFollowing, setIsFollowing ] = useState( false )
+    const navigate = useNavigate()
+    const { user: currentUser } = useContext( AuthContext )
+
+    useEffect( () => {
+        if ( user?._id && Object.keys( user ).length > 0 ) {
+            setIsFollowing( currentUser.following.includes( user?._id ) )
+        }
+
+    }, [ currentUser, user ] )
+
+    // fetch friends of user
+    useEffect( () => {
+        // Define an async function inside the useEffect
+        const fetchData = async () => {
+            try {
+                const friendList = await axios.get( `http://localhost:8800/api/users/friends/${user?._id}` );
+                setFriends( friendList.data );
+            } catch ( error ) {
+                console.log( error );
+            }
+        };
+
+        // Check if user is defined and not empty before calling the fetchData function
+        if ( user?._id && Object.keys( user ).length > 0 ) {
+            fetchData();
+        }
+
+        // Return a cleanup function
+        return () => {
+        };
+    }, [ user ] );
+
+
+    const handleProfileNavigation = ( friend ) => {
+        navigate( `/profile/${friend.userName}` )
+        location.reload()
+    }
+
+    const followUser = async () => {
+        try {
+            // if we are currently following this user, unfollow. Else, we follow the user
+            if ( isFollowing ) {
+                await axios.put( `http://localhost:8800/api/users/${user._id}/unfollow`, { userId: currentUser._id } )
+            }
+            else {
+                await axios.put( `http://localhost:8800/api/users/${user._id}/follow`, { userId: currentUser._id } )
+            }
+        } catch ( error ) {
+            console.log( error )
+        }
+        setIsFollowing( !isFollowing )
+    }
 
     const HomeRightbar = () => {
         return (
@@ -19,11 +75,11 @@ const Rightbar = ( { user } ) => {
                 </div>
                 <img src={ Ad } alt="" className="ad" />
                 <h4 className="title">Online Friends</h4>
-                <ul className="friendList">
+                {/* <ul className="friendList">
                     { Users.map( ( u ) => (
                         <Online key={ u.id } user={ u } />
                     ) ) }
-                </ul>
+                </ul> */}
             </>
         )
     }
@@ -31,6 +87,11 @@ const Rightbar = ( { user } ) => {
     const ProfileRightBar = () => {
         return (
             <>
+                { user.userName !== currentUser.userName && (
+                    <button className={ `followBtn ${isFollowing ? "unfollow" : "follow"}` } onClick={ followUser }>
+                        { isFollowing ? <>Unfollow<Remove /></> : <>Follow<Add /></> }
+                    </button>
+                ) }
                 <h4 className="userInfoTitle">User Information</h4>
                 <div className="info">
                     <div className="infoItem">
@@ -49,30 +110,12 @@ const Rightbar = ( { user } ) => {
                 </div>
                 <h4 className="userInfoTitle">User Friends</h4>
                 <div className="followings">
-                    <div className="following">
-                        <img src={ Person1 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person2 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person3 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person1 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person2 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
-                    <div className="following">
-                        <img src={ Person3 } alt="" className="followingImg" />
-                        <span className="userName">Jayne Li</span>
-                    </div>
+                    { friends.map( friend => (
+                        <div className="following" key={ friend._id } onClick={ () => handleProfileNavigation( friend ) }>
+                            <img src={ friend.profilePicture ? friend.profilePicture : noavatar } alt="" className="followingImg" />
+                            <span className="userName">{ friend.userName }</span>
+                        </div>
+                    ) ) }
                 </div>
             </>
         )
