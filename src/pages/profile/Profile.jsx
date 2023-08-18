@@ -52,7 +52,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="rightBottom">
-                        <Feed userName={ userName } />
+                        <Feed userName={ userName } profile/>
                         <Rightbar user={ user && user } />
                     </div>
 
