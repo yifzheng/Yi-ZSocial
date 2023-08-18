@@ -60,7 +60,6 @@ const Rightbar = ( { user } ) => {
                 // fetch item from local storage and update as with context object
                 const storedUser = JSON.parse( localStorage.getItem( "user" ) )
                 storedUser.following = storedUser.following.filter( ( id ) => id !== user._id )
-                console.log( "UNFOLLOW: ", storedUser.following )
                 localStorage.setItem( "user", JSON.stringify( storedUser ) )
             }
             else {
@@ -69,7 +68,6 @@ const Rightbar = ( { user } ) => {
                 // fetch item from local storage and update as with context object
                 const storedUser = JSON.parse( localStorage.getItem( "user" ) )
                 storedUser.following.push( user._id )
-                console.log( "FOLLOW: ", storedUser.following )
                 localStorage.setItem( "user", JSON.stringify( storedUser ) )
             }
         } catch ( error ) {
@@ -77,7 +75,7 @@ const Rightbar = ( { user } ) => {
         }
         setIsFollowing( !isFollowing )
     }
-    console.log( currentUser.following )
+
     const HomeRightbar = () => {
         return (
             <>
