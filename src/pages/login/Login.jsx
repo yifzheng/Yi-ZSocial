@@ -20,7 +20,7 @@ const Login = () => {
             dispatch( { type: "LOGIN_SUCCESS", payload: JSON.parse(storedUser) } )
         }
     }, [] )
-
+    // login user
     const handleSubmit = ( e ) => {
         e.preventDefault();
         loginCall( { email: emailRef.current.value, password: passwordRef.current.value }, dispatch )
