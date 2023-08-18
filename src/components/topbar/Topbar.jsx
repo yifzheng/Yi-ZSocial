@@ -5,15 +5,25 @@ import Logo from "../../assets/snap.png"
 import { useNavigate } from "react-router-dom"
 import { useContext, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
+import { debounce } from "lodash"
+import axios from "axios"
 
 const Topbar = () => {
     const { user, dispatch } = useContext( AuthContext )
     const navigate = useNavigate()
     const [ menuOpen, setMenuOpen ] = useState( false )
+    const [ searchOpen, setSearchOpen ] = useState( false )
+    const [ searchTerm, setSearchTerm ] = useState( "" )
+    const [ searchResults, setSearchResults ] = useState( [] )
 
     // navigate to profile page
     const handleProfileNavigation = () => {
         navigate( `/profile/${user.userName}` )
+        location.reload()
+    }
+
+    const handleSearchProfileNavigation = ( searchedUser ) => {
+        navigate( `/profile/${searchedUser.userName}` )
         location.reload()
     }
 
@@ -23,7 +33,28 @@ const Topbar = () => {
         localStorage.removeItem( "user" )
     }
 
+    // Debounce the search function to execute after user stops typing for 2 seconds
+    const debouncedSearch = debounce( async ( query ) => {
+        try {
+            if ( query ) {
+                const response = await axios.get( `http://localhost:8800/api/users/search?query=${query}` )
+                setSearchResults( response.data )
+            }
+            else {
+                setSearchResults( [] )
+            }
+        } catch ( error ) {
+            console.error( error )
+        }
+    }, 2000 )
 
+    // handle search change
+    const handleSearchChange = ( e ) => {
+        const value = e.target.value
+        setSearchTerm( value )
+        debouncedSearch( value )
+    }
+  
     return (
         <div className="topbar">
             <div className="left">
@@ -33,7 +64,23 @@ const Topbar = () => {
             <div className="center">
                 <div className="searchBar">
                     <Search className="searchIcon" />
-                    <input placeholder="Search for friend, post or video" className="searchInput" />
+                    <input
+                        placeholder="Search for friend, post or video"
+                        className="searchInput"
+                        onFocus={ () => setSearchOpen( true ) }
+                        value={ searchTerm }
+                        onChange={ handleSearchChange }
+                    />
+                    <span className={ `cancelSearch ${!searchOpen && "deactive"}` } onClick={ () => setSearchOpen( false ) }>Cancel</span>
+                </div>
+                <div className={ `searchResults ${!searchOpen && "deactive"}` }>
+                    { searchResults.length > 0 && searchResults.map( ( user ) => (
+                        <div className="searchItem" key={ user._id } onClick={ () => handleSearchProfileNavigation( user ) }>
+                            <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" />
+                            <span>{ user.userName }</span>
+                        </div>
+                    ) ) }
+
                 </div>
             </div>
             <div className="right">
