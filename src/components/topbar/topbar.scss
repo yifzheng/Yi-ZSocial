@@ -32,7 +32,7 @@
 
 	.center {
 		flex: 6;
-
+		width: 100%;
 		.searchBar {
 			width: 100%;
 			height: 40px;
@@ -40,7 +40,7 @@
 			border-radius: 30px;
 			display: flex;
 			align-items: center;
-
+			position: relative;
 			.searchIcon {
 				font-style: 20px !important;
 				margin-left: 10px;
@@ -48,7 +48,8 @@
 
 			.searchInput {
 				border: none;
-				width: 70%;
+				width: 80%;
+				height: 30px;
 				margin-left: 20px;
 				font-size: 18px;
 				font-weight: 500;
@@ -56,6 +57,59 @@
 
 			.searchInput:focus {
 				outline: none;
+			}
+
+			.cancelSearch {
+				position: absolute;
+				right: 20px;
+				font-size: 18px;
+				font-weight: 600;
+				cursor: pointer;
+
+				&.deactive {
+					display: none;
+				}
+			}
+		}
+		.searchResults {
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 45px;
+			left: 30%;
+			background-color: gray;
+			width: 30%;
+			padding: 10px;
+			gap: 10px;
+			border-radius: 0px 0px 20px 20px;
+			overflow: scroll;
+			overflow-x: hidden;
+			min-height: 300px;
+			.searchItem {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+				cursor: pointer;
+				padding: 5px 15px;
+				border-radius: 10px;
+				img {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+				}
+				span {
+					font-size: 18px;
+					font-weight: 600;
+					color: snow;
+				}
+			}
+
+			.searchItem:hover {
+				background-color: lightgray;
+			}
+
+			&.deactive {
+				display: none;
 			}
 		}
 	}
@@ -124,7 +178,7 @@
 		text-align: center;
 		font-size: 18px;
 		z-index: -999;
-	
+
 		.menuItem {
 			padding: 5px;
 			border: 1px solid white;
