@@ -26,13 +26,11 @@ const Rightbar = ( { user } ) => {
 
         // Check if user is defined and not empty before calling the fetchData function
         if ( user?._id && Object.keys( user ).length > 0 ) {
-            console.log( "user is not undefined,", user );
             fetchData();
         }
 
         // Return a cleanup function
         return () => {
-            // You can optionally perform cleanup here
         };
     }, [ user ] );
 
