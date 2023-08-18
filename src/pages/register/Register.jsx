@@ -16,7 +16,6 @@ const Register = () => {
     const passwordAgainRef = useRef();
     const [ passwordNotEqual, setPasswordNotEqual ] = useState( false )
 
-
     // handle user registration on client side
     const handleSubmit = async ( e ) => {
         e.preventDefault();

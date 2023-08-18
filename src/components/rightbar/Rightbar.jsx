@@ -5,14 +5,26 @@ import Ad from "../../assets/ad.jpg"
 import noavatar from "../../assets/person/noavatar.png"
 import Online from "../online/Online"
 import { Users } from "../../dummyData"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
+import { Add, Remove } from "@mui/icons-material"
 
 const Rightbar = ( { user } ) => {
     const [ friends, setFriends ] = useState( [] )
+    const [ isFollowing, setIsFollowing ] = useState( false )
     const navigate = useNavigate()
-    console.log( "rightbar USER: ", user?._id )
+    const { user: currentUser } = useContext( AuthContext )
+
+    useEffect( () => {
+        if ( user?._id && Object.keys( user ).length > 0 ) {
+            setIsFollowing( currentUser.following.includes( user?._id ) )
+        }
+
+    }, [ currentUser, user ] )
+
+    // fetch friends of user
     useEffect( () => {
         // Define an async function inside the useEffect
         const fetchData = async () => {
@@ -40,6 +52,21 @@ const Rightbar = ( { user } ) => {
         location.reload()
     }
 
+    const followUser = async () => {
+        try {
+            // if we are currently following this user, unfollow. Else, we follow the user
+            if ( isFollowing ) {
+                await axios.put( `http://localhost:8800/api/users/${user._id}/unfollow`, { userId: currentUser._id } )
+            }
+            else {
+                await axios.put( `http://localhost:8800/api/users/${user._id}/follow`, { userId: currentUser._id } )
+            }
+        } catch ( error ) {
+            console.log( error )
+        }
+        setIsFollowing( !isFollowing )
+    }
+
     const HomeRightbar = () => {
         return (
             <>
@@ -61,6 +88,11 @@ const Rightbar = ( { user } ) => {
     const ProfileRightBar = () => {
         return (
             <>
+                { user.userName !== currentUser.userName && (
+                    <button className={ `followBtn ${isFollowing ? "unfollow" : "follow"}` } onClick={ followUser }>
+                        { isFollowing ? <>Unfollow<Remove /></> : <>Follow<Add /></> }
+                    </button>
+                ) }
                 <h4 className="userInfoTitle">User Information</h4>
                 <div className="info">
                     <div className="infoItem">

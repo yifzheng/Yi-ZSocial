@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./login.scss"
 import Logo from "../../assets/snap.png"
-import { useContext, useRef } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { loginCall } from "../../api"
 import { AuthContext } from "../../../src/context/AuthContext"
 import CircularProgress from '@mui/material/CircularProgress';
@@ -11,6 +12,14 @@ const Login = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const { user, isFetching, error, dispatch } = useContext( AuthContext )
+
+    // check if there is a user on localstorage and set to context
+    useEffect( () => {
+        const storedUser = localStorage.getItem( "user" )
+        if ( storedUser ) {
+            dispatch( { type: "LOGIN_SUCCESS", payload: JSON.parse(storedUser) } )
+        }
+    }, [] )
 
     const handleSubmit = ( e ) => {
         e.preventDefault();

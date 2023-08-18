@@ -2,8 +2,31 @@
 	flex: 3.5;
 
 	.wrapper {
-		margin-top: 25px;
+		margin-top: 35px;
 		padding: 20px 20px 0px 0px;
+
+		.followBtn {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border: none;
+			border-radius: 10px;
+			width: 110px;
+			min-height: 40px;
+			font-size: 16px;
+			font-weight: 600;
+			cursor: pointer;
+			color: white;
+			margin-bottom: 10px;
+		}
+
+		.follow {
+			background-color: #2080f0;
+		}
+
+		.unfollow {
+			background-color: rgb(219, 30, 68);
+		}
 
 		.birthday {
 			display: flex;
@@ -41,8 +64,6 @@
 				display: flex;
 				align-items: center;
 				margin-bottom: 20px;
-
-				
 			}
 		}
 
@@ -62,7 +83,7 @@
 				.infoKey {
 					font-weight: 800;
 					margin-right: 15px;
-					color: #555
+					color: #555;
 				}
 				.infoValue {
 					font-weight: 500;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Sidebar from '../../components/sidebar/Sidebar'
 import Topbar from '../../components/topbar/Topbar'
 import Feed from '../../components/feed/Feed'
@@ -5,13 +6,23 @@ import './profile.scss'
 import Rightbar from '../../components/rightbar/Rightbar'
 import noavatar from "../../assets/person//noavatar.png"
 import nocover from "../../assets/person/nocover.jpg"
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from "react-router"
 import axios from 'axios'
+import { AuthContext } from '../../context/AuthContext'
 
 const Profile = () => {
     const [ user, setUser ] = useState( {} )
     const { userName } = useParams()
+    const { dispatch } = useContext( AuthContext )
+    
+    // check if there is a user on localstorage and set to context
+    useEffect( () => {
+        const storedUser = localStorage.getItem( "user" )
+        if ( storedUser ) {
+            dispatch( { type: "LOGIN_SUCCESS", payload: JSON.parse( storedUser ) } )
+        }
+    }, [] )
 
     useEffect( () => {
         window.scrollTo( 0, 0 )
