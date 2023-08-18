@@ -109,4 +109,34 @@
 			cursor: pointer;
 		}
 	}
+
+	.menuBar {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: -150px;
+		right: 0;
+		border: 1px solid black;
+		background-color: #2080f0;
+		color: snow;
+		font-weight: 500;
+		width: 150px;
+		text-align: center;
+		font-size: 18px;
+		z-index: -999;
+	
+		.menuItem {
+			padding: 5px;
+			border: 1px solid white;
+			width: 138px;
+			cursor: pointer;
+		}
+		.menuItem:hover {
+			background-color: #529ff7;
+		}
+
+		&.active {
+			top: 50px;
+		}
+	}
 }
