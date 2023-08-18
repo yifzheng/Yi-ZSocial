@@ -58,6 +58,7 @@ const Share = () => {
             else {
                 await axios.post( "http://localhost:8800/api/posts", newPost ) // upload as is
                 setFile( null )
+                location.reload()
             }
         } catch ( error ) {
             console.log( error )
@@ -76,6 +77,10 @@ const Share = () => {
             setFile( selectedFileURL )
         }
     }
+    const handleDeleteFile = () => {
+        setFile( null )
+        imageRef.current.value = null
+    }
 
     return (
         <div className='share'>
@@ -89,13 +94,13 @@ const Share = () => {
                         ref={ desc }
                         rows={ 3 }
                     />
-                    { file !== null && <img src={ cancel } alt="" className="cancelImgBtn" onClick={ () => setFile( null ) } /> }
+                    { file !== null && <img src={ cancel } alt="" className="cancelImgBtn" onClick={ handleDeleteFile } /> }
                 </div>
                 <div className="imageContainer">
                     <img src={ file } alt="" />
                 </div>
                 <hr className="shareHR" />
-                <form className="bottom" onSubmit={ handleSubmit }>
+                <form className="bottom" method={ "post" } onSubmit={ handleSubmit }>
                     <div className="options">
                         <label htmlFor="file" className="option">
                             <PermMedia className="icon" htmlColor="tomato" />
