@@ -4,7 +4,6 @@ import Birthday from "../../assets/gift.png"
 import Ad from "../../assets/ad.jpg"
 import noavatar from "../../assets/person/noavatar.png"
 import Online from "../online/Online"
-import { Users } from "../../dummyData"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -76,11 +75,11 @@ const Rightbar = ( { user } ) => {
                 </div>
                 <img src={ Ad } alt="" className="ad" />
                 <h4 className="title">Online Friends</h4>
-                <ul className="friendList">
+                {/* <ul className="friendList">
                     { Users.map( ( u ) => (
                         <Online key={ u.id } user={ u } />
                     ) ) }
-                </ul>
+                </ul> */}
             </>
         )
     }

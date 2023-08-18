@@ -11,7 +11,7 @@ const Login = () => {
     const navigate = useNavigate();
     const emailRef = useRef()
     const passwordRef = useRef()
-    const { user, isFetching, error, dispatch } = useContext( AuthContext )
+    const { isFetching, error, dispatch } = useContext( AuthContext )
 
     // check if there is a user on localstorage and set to context
     useEffect( () => {
