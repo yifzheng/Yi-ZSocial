@@ -14,7 +14,7 @@ const Rightbar = ( { user } ) => {
     const [ friends, setFriends ] = useState( [] )
     const [ isFollowing, setIsFollowing ] = useState( false )
     const navigate = useNavigate()
-    const { user: currentUser } = useContext( AuthContext )
+    const { user: currentUser, dispatch } = useContext( AuthContext )
 
     useEffect( () => {
         if ( user?._id && Object.keys( user ).length > 0 ) {
@@ -56,16 +56,28 @@ const Rightbar = ( { user } ) => {
             // if we are currently following this user, unfollow. Else, we follow the user
             if ( isFollowing ) {
                 await axios.put( `http://localhost:8800/api/users/${user._id}/unfollow`, { userId: currentUser._id } )
+                dispatch( { type: "UNFOLLOW", payload: user._id } ) // update user object in context
+                // fetch item from local storage and update as with context object
+                const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+                storedUser.following = storedUser.following.filter( ( id ) => id !== user._id )
+                console.log( "UNFOLLOW: ", storedUser.following )
+                localStorage.setItem( "user", JSON.stringify( storedUser ) )
             }
             else {
                 await axios.put( `http://localhost:8800/api/users/${user._id}/follow`, { userId: currentUser._id } )
+                dispatch( { type: "FOLLOW", payload: user._id } ) // update user object in context
+                // fetch item from local storage and update as with context object
+                const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+                storedUser.following.push( user._id )
+                console.log( "FOLLOW: ", storedUser.following )
+                localStorage.setItem( "user", JSON.stringify( storedUser ) )
             }
         } catch ( error ) {
             console.log( error )
         }
         setIsFollowing( !isFollowing )
     }
-
+    console.log( currentUser.following )
     const HomeRightbar = () => {
         return (
             <>

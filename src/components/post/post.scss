@@ -37,9 +37,29 @@
             }
 
             .topRight {
-                
+                position: relative;
+                display: flex;
+                align-items: center;
                 .moreIcon {
                     cursor: pointer;
+                }
+                .deletePost {
+                    position: absolute;
+                    right: 25px;
+                    border-radius: 10px;
+                    background-color: lightgray;
+                    width: 80px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: crimson;
+                    font-weight: 600;
+                    font-size: 18px;
+                    cursor: pointer;
+                    &.unactive {
+                        display: none;
+                    }
                 }
             }
         }

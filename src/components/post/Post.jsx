@@ -14,6 +14,7 @@ const Post = ( { post } ) => {
     const [ user, setUser ] = useState( {} )
     const [ likes, setLike ] = useState( post.likes.length )
     const [ isLike, setIsLike ] = useState( false )
+    const [ deleted, setDeleted ] = useState( false )
     const { user: currentUser } = useContext( AuthContext )
 
     // onload
@@ -27,6 +28,7 @@ const Post = ( { post } ) => {
         }
     }, [ post.userId ] )
 
+    // check if user already liked this post
     useEffect( () => {
         setIsLike( post.likes.includes( currentUser._id ) )
     }, [ currentUser._id, post.likes ] )
@@ -41,6 +43,16 @@ const Post = ( { post } ) => {
 
     }
 
+    const handleDeletePost = async () => {
+        console.log( post.userId === currentUser._id )
+        try {
+            await axios.delete( `http://localhost:8800/api/posts/${post._id}`, { data: { userId: user._id } } )
+            location.reload()
+        } catch ( error ) {
+            console.error( error )
+        }
+    }
+
     return (
         <div className="post">
             <div className="wrapper">
@@ -50,9 +62,10 @@ const Post = ( { post } ) => {
                         <span className="userName">{ user?.userName }</span>
                         <span className="date">{ format( post.createdAt ) }</span>
                     </div>
-                    <div className="topRight">
-                        <MoreVert className="moreIcon" />
-                    </div>
+                    { user.userName === currentUser.userName && <div className="topRight">
+                        <MoreVert className="moreIcon" onClick={ () => setDeleted( !deleted ) } />
+                        <span className={ `deletePost ${!deleted && "unactive"}` } onClick={ handleDeletePost }>Delete</span>
+                    </div> }
                 </div>
                 <div className="center">
                     <span className="postText">{ post?.desc }</span>
