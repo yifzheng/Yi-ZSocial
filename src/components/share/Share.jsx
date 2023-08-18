@@ -16,7 +16,8 @@ const Share = () => {
     const [ file, setFile ] = useState( null )
 
     // submit the post to database
-    const handleSubmit = async () => {
+    const handleSubmit = async ( e ) => {
+        e.preventDefault()
         const selectedImg = imageRef.current
         const newPost = {
             userId: user._id,
@@ -47,7 +48,9 @@ const Share = () => {
                         getDownloadURL( uploadTask.snapshot.ref ).then( async ( downloadURL ) => {
                             newPost.img = downloadURL // add image to new post
                             await axios.post( "http://localhost:8800/api/posts", newPost ) // upload post
+                            desc.current.value = null;
                             setFile( null )
+                            location.reload()
                         } )
                     } )
 
@@ -84,7 +87,7 @@ const Share = () => {
                         placeholder={ `What's on your mind ${user.firstName.charAt( 0 ).toUpperCase() + user.firstName.slice( 1 )}?` }
                         className="input"
                         ref={ desc }
-                        rows={3}
+                        rows={ 3 }
                     />
                     { file !== null && <img src={ cancel } alt="" className="cancelImgBtn" onClick={ () => setFile( null ) } /> }
                 </div>
