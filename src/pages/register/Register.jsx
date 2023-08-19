@@ -1,8 +1,10 @@
 import "./register.scss"
 import Logo from "../../assets/snap.png"
 import { useNavigate } from "react-router"
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../../firebase"
 
 const Register = () => {
     const navigate = useNavigate();
@@ -30,7 +32,7 @@ const Register = () => {
 
             try {
                 await axios.post( `http://localhost:8800/api/auth/register`, user )
-                navigate( "/login" )
+                createUserWithEmailAndPassword( auth, email, password ).then( () => navigate( "/login" ) )
             }
             catch ( error ) {
                 console.log( error )
