@@ -109,7 +109,7 @@ const Rightbar = ( { user } ) => {
                         <span className="infoValue">{ user.city }</span>
                     </div>
                     <div className="infoItem">
-                        <span className="infoKey">From:</span>
+                        <span className="infoKey">Hometown:</span>
                         <span className="infoValue">{ user.from }</span>
                     </div>
                     <div className="infoItem">

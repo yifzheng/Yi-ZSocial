@@ -54,7 +54,7 @@ const Topbar = () => {
         setSearchTerm( value )
         debouncedSearch( value )
     }
-  
+
     return (
         <div className="topbar">
             <div className="left">
@@ -89,7 +89,7 @@ const Topbar = () => {
                     <span className="topbarLink" onClick={ handleProfileNavigation }>Timeline</span>
                 </div>
                 <div className="topbarIcons">
-                    <div className="iconItem">
+                    {/* <div className="iconItem">
                         <Person />
                         <span className="iconBadge"></span>
                     </div>
@@ -100,13 +100,17 @@ const Topbar = () => {
                     <div className="iconItem">
                         <Notifications />
                         <span className="iconBadge"></span>
-                    </div>
+                    </div> */}
+                    <span className="userName">{ user.userName }</span>
+
                 </div>
                 <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className="profile" onClick={ () => setMenuOpen( !menuOpen ) } />
             </div>
             <div className={ `menuBar ${menuOpen && 'active'}` }>
                 <span className="menuItem" onClick={ handleProfileNavigation }>Profile</span>
-                <span className="menuItem">Edit Profile</span>
+                <hr />
+                <span className="menuItem" onClick={ () => navigate( "/edit_profile" ) }>Edit Profile</span>
+                <hr />
                 <span className="menuItem" onClick={ handleLogout }>Logout</span>
             </div>
         </div>
