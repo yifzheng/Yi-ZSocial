@@ -44,7 +44,6 @@ const Post = ( { post } ) => {
     }
 
     const handleDeletePost = async () => {
-        console.log( post.userId === currentUser._id )
         try {
             await axios.delete( `http://localhost:8800/api/posts/${post._id}`, { data: { userId: user._id } } )
             location.reload()
