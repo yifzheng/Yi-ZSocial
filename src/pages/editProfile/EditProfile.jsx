@@ -1,12 +1,11 @@
 import Topbar from "../../components/topbar/Topbar"
 import Sidebar from "../../components/sidebar/Sidebar"
-import nocover from "../../assets/person/nocover.jpg"
-import noavatar from "../../assets/person/noavatar.png"
 import snap from "../../assets/snap.png"
 import "./editProfile.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { useNavigate } from "react-router"
+import axios from "axios"
 
 const EditProfile = () => {
     const { user } = useContext( AuthContext )
@@ -15,30 +14,75 @@ const EditProfile = () => {
     const [ lastName, setLastName ] = useState( user.lastName )
     const [ city, setCity ] = useState( user.city )
     const [ from, setFrom ] = useState( user.from )
-    const [ relationship, setRelationship ] = useState( 0 )
+    const [ relationship, setRelationship ] = useState( user.relationship )
     const [ desc, setDesc ] = useState( user.desc )
-    const profileImgRef = useRef()
-    const coverImgRef = useRef()
     const navigate = useNavigate();
 
-    // set relationship type on load
-    useEffect( () => {
-        setRelationship( getRelationship( user.relationship ) )
-    }, [ user.relationship ] )
-
-    // return relationship type based on realtionship number
-    const getRelationship = ( num ) => {
-        switch ( num ) {
-            case 1:
-                return "Single"
-            case 2:
-                return "Married"
-            case 3:
-                return "Dating"
-            default:
-                return "Single"
+    // handle saving the information in the save section
+    const handleSaveNameSection = async () => {
+        try {
+            await axios.put( `http://localhost:8800/api/users/${user._id}`, { userId: user._id, firstName, lastName, userName } )
+            // fetch user object from local storage and update context object
+            const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+            storedUser.firstName = firstName
+            storedUser.lastName = lastName
+            storedUser.userName = userName
+            localStorage.setItem( "user", JSON.stringify( storedUser ) )
+            setTimeout( () => navigate( "/" ), 1000 )
+        } catch ( error ) {
+            console.log( error )
         }
     }
+
+    // handle saving the information in the miscellaneous section
+    const handleSaveMiscellaneous = async () => {
+        const rel = parseInt( relationship )
+        try {
+            await axios.put( `http://localhost:8800/api/users/${user._id}`, { userId: user._id, city, from, relationship: rel } )
+            // fetch user object from local storage and update context object
+            const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+            storedUser.city = city
+            storedUser.from = from
+            storedUser.relationship = rel
+            localStorage.setItem( "user", JSON.stringify( storedUser ) )
+            setTimeout( () => navigate( `/profile/${user.userName}` ), 1000 )
+        } catch ( error ) {
+            console.log( error )
+        }
+    }
+    const handleSaveDesc = async () => {
+        try {
+            await axios.put( `http://localhost:8800/api/users/${user._id}`, { userId: user._id, desc } )
+            // fetch user object from local storage and update context object
+            const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+            storedUser.desc = desc
+            localStorage.setItem( "user", JSON.stringify( storedUser ) )
+            setTimeout( () => navigate( `/profile/${user.userName}` ), 1000 )
+        } catch ( error ) {
+            console.log( error )
+        }
+    }
+
+    const handleSaveAll = async () => {
+        const rel = parseInt( relationship )
+        try {
+            await axios.put( `http://localhost:8800/api/users/${user._id}`, { userId: user._id, firstName, lastName, userName, city, from, relationship: rel, desc } )
+            // fetch user object from local storage and update context object
+            const storedUser = JSON.parse( localStorage.getItem( "user" ) )
+            storedUser.firstName = firstName
+            storedUser.lastName = lastName
+            storedUser.userName = userName
+            storedUser.city = city
+            storedUser.from = from
+            storedUser.relationship = rel
+            storedUser.desc = desc
+            localStorage.setItem( "user", JSON.stringify( storedUser ) )
+            setTimeout( () => navigate( `/profile/${user.userName}` ), 1000 )
+        } catch ( error ) {
+            console.log( error )
+        }
+    }
+
     return (
         <>
             <Topbar />
@@ -74,7 +118,7 @@ const EditProfile = () => {
                             </div>
                             <span>Please note that any name changes are case insensitive</span>
                             <div className="buttons">
-                                <button className="save">Save Profile Info</button>
+                                <button className="save" onClick={ handleSaveNameSection }>Save Profile Info</button>
                                 <button className="cancel" onClick={ () => navigate( "/" ) }>Cancel</button>
                             </div>
                         </div>
@@ -106,7 +150,7 @@ const EditProfile = () => {
                             </div>
                             <span>Please note that any name changes are case insensitive</span>
                             <div className="buttons">
-                                <button className="save">Save Profile Info</button>
+                                <button className="save" onClick={ handleSaveMiscellaneous }>Save Profile Info</button>
                                 <button className="cancel" onClick={ () => navigate( "/" ) }>Cancel</button>
                             </div>
                         </div>
@@ -116,45 +160,20 @@ const EditProfile = () => {
                         <div className="left">
                             <span className="title">Desription</span>
                         </div>
-
                         <div className="right">
-                            <textarea name="desc" id="desc" cols="50" rows="10" placeholder="What's your status?" value={ desc } onChange={ e => setDesc( e.target.value ) }></textarea>
+                            <textarea name="desc" id="desc" cols="50" rows="5" placeholder="What's your status?" maxLength={ 100 } value={ desc } onChange={ e => setDesc( e.target.value ) }></textarea>
                             <div className="buttons">
-                                <button className="save">Save Profile Info</button>
+                                <button className="save" onClick={ handleSaveDesc }>Save Profile Info</button>
                                 <button className="cancel" onClick={ () => navigate( "/" ) }>Cancel</button>
                             </div>
                         </div>
                     </div>
                     <hr className="lineBreak" />
-                    <div className="profilePicture">
-                        <div className="left">
-                            <span className="title">Profile Picture</span>
-
-                        </div>
+                    <div className="saveAll">
+                        <div className="left"><span className="title">Save All?</span></div>
                         <div className="right">
-                            <img src={ noavatar } alt="" />
-                            <input type="file" name="picture" id="picture" style={ { display: 'none' } } ref={ profileImgRef } />
-                            <button className="selectFile"><label htmlFor="picture">Upload from computer</label></button>
-                            <br />
                             <div className="buttons">
-                                <button className="save">Save Profile Info</button>
-                                <button className="cancel" onClick={ () => navigate( "/" ) }>Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                    <hr className="lineBreak" />
-                    <div className="profilePicture">
-                        <div className="left">
-                            <span className="title">Cover Picture</span>
-
-                        </div>
-                        <div className="right">
-                            <img src={ nocover } />
-                            <input type="file" name="picture" id="picture" style={ { display: 'none' } } ref={ coverImgRef } />
-                            <button className="selectFile"><label htmlFor="picture">Upload from computer</label></button>
-                            <br />
-                            <div className="buttons">
-                                <button className="save">Save Profile Info</button>
+                                <button className="save" onClick={ handleSaveAll }>Save Profile Info</button>
                                 <button className="cancel" onClick={ () => navigate( "/" ) }>Cancel</button>
                             </div>
                         </div>

@@ -7,7 +7,7 @@ import Heart from "../../assets/heart.png"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { format } from "timeago.js"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 
 const Post = ( { post } ) => {
@@ -16,6 +16,7 @@ const Post = ( { post } ) => {
     const [ isLike, setIsLike ] = useState( false )
     const [ deleted, setDeleted ] = useState( false )
     const { user: currentUser } = useContext( AuthContext )
+    const navigate = useNavigate()
 
     // onload
     useEffect( () => {
@@ -46,7 +47,7 @@ const Post = ( { post } ) => {
     const handleDeletePost = async () => {
         try {
             await axios.delete( `http://localhost:8800/api/posts/${post._id}`, { data: { userId: user._id } } )
-            location.reload()
+            navigate( 0 )
         } catch ( error ) {
             console.error( error )
         }

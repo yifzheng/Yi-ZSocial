@@ -79,7 +79,7 @@
 					}
 
 					select {
-						width: 310px;
+						width: 275px;
 						height: 30px;
 						padding: 5px 10px;
 						font-size: 16px;
@@ -117,7 +117,7 @@
 					max-width: 400px;
 					max-height: 200px;
 					padding: 10px;
-					font-size: 16px;
+					font-size: 22px;
 					font-weight: 500;
 					border: none;
 					border-radius: 5px;
@@ -129,38 +129,15 @@
 			}
 		}
 
-		.profilePicture {
+		.saveAll {
 			display: flex;
 			padding: 40px 20px;
 
 			.left {
 				flex: 3;
 			}
-
 			.right {
 				flex: 7;
-				display: flex;
-				flex-direction: column;
-				gap: 20px;
-				img {
-					border: 1px solid #2080f0;
-					width: 250px;
-					height: 250px;
-					object-fit: cover;
-					background-color: lightgray;
-				}
-				.selectFile {
-					width: 250px;
-					height: 30px;
-					padding: 0px 10px;
-					border: none;
-					font-weight: 500;
-					border-radius: 5px;
-					background-color: #2080f0;
-					color: snow;
-					font-size: 16px;
-					cursor: pointer;
-				}
 			}
 		}
 	}
