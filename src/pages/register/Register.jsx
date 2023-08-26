@@ -74,6 +74,7 @@ const Register = () => {
                                 type="text"
                                 className="registerInput"
                                 placeholder="User Name"
+                                max={20}
                                 required
                                 ref={ userNameRef }
                             />

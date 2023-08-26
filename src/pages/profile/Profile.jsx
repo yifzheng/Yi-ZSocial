@@ -6,16 +6,18 @@ import './profile.scss'
 import Rightbar from '../../components/rightbar/Rightbar'
 import noavatar from "../../assets/person//noavatar.png"
 import nocover from "../../assets/person/nocover.jpg"
+import camera from "../../assets/camera.png"
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from "react-router"
+import { useParams, useNavigate } from "react-router"
 import axios from 'axios'
 import { AuthContext } from '../../context/AuthContext'
 
 const Profile = () => {
     const [ user, setUser ] = useState( {} )
     const { userName } = useParams()
-    const { dispatch } = useContext( AuthContext )
-    
+    const { user: currentUser, dispatch } = useContext( AuthContext )
+    const navigate = useNavigate()
+
     // check if there is a user on localstorage and set to context
     useEffect( () => {
         const storedUser = localStorage.getItem( "user" )
@@ -45,6 +47,7 @@ const Profile = () => {
                         <div className="profileCover">
                             <img src={ user.coverPicture ? user.coverPicture : nocover } alt="" className='coverImg' />
                             <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className='avatar' />
+                            { userName === currentUser.userName && < img src={ camera } alt="" className="editPicture" onClick={ () => navigate( "/edit_picture" ) } /> }
                         </div>
                         <div className="profileInfo">
                             <h4 className='profileInfoName'>{ user.userName }</h4>
@@ -52,7 +55,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="rightBottom">
-                        <Feed userName={ userName } profile/>
+                        <Feed userName={ userName } profile />
                         <Rightbar user={ user && user } />
                     </div>
 

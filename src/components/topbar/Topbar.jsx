@@ -19,12 +19,12 @@ const Topbar = () => {
     // navigate to profile page
     const handleProfileNavigation = () => {
         navigate( `/profile/${user.userName}` )
-        location.reload()
+        navigate( 0 )
     }
 
     const handleSearchProfileNavigation = ( searchedUser ) => {
         navigate( `/profile/${searchedUser.userName}` )
-        location.reload()
+        navigate( 0 )
     }
 
     // logout user and delete user object from local storage
@@ -46,7 +46,7 @@ const Topbar = () => {
         } catch ( error ) {
             console.error( error )
         }
-    }, 2000 )
+    }, 1100 )
 
     // handle search change
     const handleSearchChange = ( e ) => {
@@ -54,7 +54,7 @@ const Topbar = () => {
         setSearchTerm( value )
         debouncedSearch( value )
     }
-  
+
     return (
         <div className="topbar">
             <div className="left">
@@ -74,6 +74,7 @@ const Topbar = () => {
                     <span className={ `cancelSearch ${!searchOpen && "deactive"}` } onClick={ () => setSearchOpen( false ) }>Cancel</span>
                 </div>
                 <div className={ `searchResults ${!searchOpen && "deactive"}` }>
+                    <span className="searching">Searching for &#39;{ searchTerm }&#39;</span>
                     { searchResults.length > 0 && searchResults.map( ( user ) => (
                         <div className="searchItem" key={ user._id } onClick={ () => handleSearchProfileNavigation( user ) }>
                             <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" />
@@ -84,12 +85,12 @@ const Topbar = () => {
                 </div>
             </div>
             <div className="right">
-                <div className="links">
+                {/* <div className="links">
                     <span className="topbarLink" onClick={ () => navigate( "/" ) }>Homepage</span>
                     <span className="topbarLink" onClick={ handleProfileNavigation }>Timeline</span>
-                </div>
+                </div> */}
                 <div className="topbarIcons">
-                    <div className="iconItem">
+                    {/* <div className="iconItem">
                         <Person />
                         <span className="iconBadge"></span>
                     </div>
@@ -100,13 +101,17 @@ const Topbar = () => {
                     <div className="iconItem">
                         <Notifications />
                         <span className="iconBadge"></span>
-                    </div>
+                    </div> */}
+                    <span className="userName">{ user.userName }</span>
+
                 </div>
                 <img src={ user.profilePicture ? user.profilePicture : noavatar } alt="" className="profile" onClick={ () => setMenuOpen( !menuOpen ) } />
             </div>
             <div className={ `menuBar ${menuOpen && 'active'}` }>
                 <span className="menuItem" onClick={ handleProfileNavigation }>Profile</span>
-                <span className="menuItem">Edit Profile</span>
+                <hr />
+                <span className="menuItem" onClick={ () => navigate( "/edit_profile" ) }>Edit Profile</span>
+                <hr />
                 <span className="menuItem" onClick={ handleLogout }>Logout</span>
             </div>
         </div>

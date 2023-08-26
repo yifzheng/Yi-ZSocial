@@ -31,7 +31,7 @@
 	}
 
 	.center {
-		flex: 6;
+		flex: 5.5;
 		width: 100%;
 		.searchBar {
 			width: 100%;
@@ -85,6 +85,12 @@
 			overflow: scroll;
 			overflow-x: hidden;
 			min-height: 300px;
+
+			.searching {
+				color: snow;
+				font-size: 16px;
+				margin-left: 10px;
+			}
 			.searchItem {
 				display: flex;
 				align-items: center;
@@ -115,10 +121,11 @@
 	}
 
 	.right {
-		flex: 3;
+		flex: 3.5;
 		display: flex;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: right;
+		gap: 70px;
 		color: white;
 
 		.links {
@@ -131,7 +138,7 @@
 
 		.topbarIcons {
 			display: flex;
-			gap: 5px;
+			align-items: center;
 
 			.iconItem {
 				margin-right: 15px;
@@ -153,6 +160,9 @@
 					justify-content: center;
 				}
 			}
+			.userName {
+				font-weight: 600;
+			}
 		}
 
 		img {
@@ -161,6 +171,7 @@
 			border-radius: 50%;
 			object-fit: cover;
 			cursor: pointer;
+			margin-right: 50px;
 		}
 	}
 

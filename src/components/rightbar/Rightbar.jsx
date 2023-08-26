@@ -48,7 +48,7 @@ const Rightbar = ( { user } ) => {
 
     const handleProfileNavigation = ( friend ) => {
         navigate( `/profile/${friend.userName}` )
-        location.reload()
+        navigate( 0 )
     }
 
     const followUser = async () => {
@@ -81,10 +81,10 @@ const Rightbar = ( { user } ) => {
             <>
                 <div className="birthday">
                     <img src={ Birthday } alt="" className="birthdayImg" />
-                    <span className="birthdayText"><b>Jane Foster</b> and <b>2 others</b> have a birthday today</span>
+                    <span className="birthdayText"><b>0</b> people have a birthday today</span>
                 </div>
                 <img src={ Ad } alt="" className="ad" />
-                <h4 className="title">Online Friends</h4>
+                {/* <h4 className="title">Online Friends</h4> */}
                 {/* <ul className="friendList">
                     { Users.map( ( u ) => (
                         <Online key={ u.id } user={ u } />
@@ -109,7 +109,7 @@ const Rightbar = ( { user } ) => {
                         <span className="infoValue">{ user.city }</span>
                     </div>
                     <div className="infoItem">
-                        <span className="infoKey">From:</span>
+                        <span className="infoKey">Hometown:</span>
                         <span className="infoValue">{ user.from }</span>
                     </div>
                     <div className="infoItem">

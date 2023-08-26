@@ -8,12 +8,14 @@ import axios from "axios"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { storage } from "../../firebase"
 import { v4 as uuid } from "uuid"
+import { useNavigate } from "react-router-dom"
 
 const Share = () => {
     const { user } = useContext( AuthContext )
     const desc = useRef()
     const imageRef = useRef()
     const [ file, setFile ] = useState( null )
+    const navigate = useNavigate()
 
     // submit the post to database
     const handleSubmit = async ( e ) => {
@@ -50,7 +52,7 @@ const Share = () => {
                             await axios.post( "http://localhost:8800/api/posts", newPost ) // upload post
                             desc.current.value = null;
                             setFile( null )
-                            location.reload()
+                            navigate( 0 )
                         } )
                     } )
 
@@ -58,7 +60,7 @@ const Share = () => {
             else {
                 await axios.post( "http://localhost:8800/api/posts", newPost ) // upload as is
                 setFile( null )
-                location.reload()
+                navigate( 0 )
             }
         } catch ( error ) {
             console.log( error )
